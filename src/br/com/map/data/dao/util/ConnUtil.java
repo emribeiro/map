@@ -36,12 +36,17 @@ public class ConnUtil {
 	
 	public void closeConnection() throws Exception{
 		if(manager.isOpen()){
+			manager.clear();
 			manager.close();
 		}
 	}
 	
 	public void commit(){
 		manager.getTransaction().commit();
+	}
+	
+	public void rollback(){
+		manager.getTransaction().rollback();
 	}
 	
 	public EntityManager getEntityManager(){

@@ -120,6 +120,7 @@ public class IncluirComponenteTest {
 			cDAO.incluir(c);
 			incluidosTeste.add(c);
 			cDAO.incluir(c2);
+			incluidosTeste.add(c2);
 			fail();
 		} catch (Exception e) {
 			assertTrue(true);
@@ -128,9 +129,9 @@ public class IncluirComponenteTest {
 	}
 	
 	@After
-	public void tearDown(){
+	public void tearDown() throws Exception{
 		for(Componente c : incluidosTeste){
-			cDAO.equals(c);
+			cDAO.excluir(c);
 		}
 	}
 

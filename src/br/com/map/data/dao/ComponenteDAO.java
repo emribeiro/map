@@ -14,15 +14,31 @@ public class ComponenteDAO {
 	public long incluir(Componente componente) throws Exception{
 		
 		conn.beginTransaction();
-		conn.getEntityManager().persist(componente);
-		conn.commit();
+		
+		try{
+			conn.getEntityManager().persist(componente);
+			conn.commit();			
+		}catch(Exception e){
+			conn.rollback();
+			throw e;
+		}
 		
 		return componente.getId();
 	}
-
+	
 	public void excluir(Componente componente) throws Exception{
 		conn.beginTransaction();
-		conn.getEntityManager().remove(componente);
-		conn.commit();
+		Componente cDel = conn.getEntityManager().find(Componente.class, componente.getId());
+		
+		if(cDel != null){
+			try{
+				conn.getEntityManager().remove(cDel);
+				conn.commit();
+			}catch(Exception e){
+				conn.rollback();
+				throw e;
+			}
+		}
+		
 	}
 }
