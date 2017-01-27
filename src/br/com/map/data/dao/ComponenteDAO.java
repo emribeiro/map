@@ -1,5 +1,7 @@
 package br.com.map.data.dao;
 
+import javax.persistence.Query;
+
 import br.com.map.data.dao.util.ConnUtil;
 import br.com.map.data.entity.Componente;
 
@@ -40,5 +42,12 @@ public class ComponenteDAO {
 			}
 		}
 		
+	}
+	
+	public long count() throws Exception{
+		conn.beginTransaction();
+		Query q = conn.getEntityManager().createQuery("select count(c) from Componente c");
+		
+		return (Long)q.getSingleResult();
 	}
 }

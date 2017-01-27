@@ -62,4 +62,11 @@ public class Componente {
 	public void setTipo(int tipo) {
 		this.tipo = tipo;
 	}
+	
+	public boolean equals(Componente componente){
+		return this.getId() == componente.getId() &&
+			   this.getNome().equals(componente.getNome()) && 
+			   this.getDescricao().equals(componente.getDescricao()) &&
+			   this.getTipo() == componente.getTipo();
+	}
 }
