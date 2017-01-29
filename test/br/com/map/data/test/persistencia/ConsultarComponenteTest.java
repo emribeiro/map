@@ -18,7 +18,6 @@ public class ConsultarComponenteTest {
 	
 	private ComponenteDAO cDAO;
 	private boolean isNotSetUp = true;
-	private long idToFind;
 	private Set<Componente> chavesDelete;
 	private Componente componente;
 	private long qtdeAntes;
@@ -61,9 +60,9 @@ public class ConsultarComponenteTest {
 		cDAO.incluir(componente);
 		chavesDelete.add(componente);
 		
-		//List<Componente> componentes = cDAO.listar();
+		List<Componente> componentes = cDAO.listar();
 		
-	//	assertEquals(qtdeAntes + 3, componentes.size());
+		assertEquals(qtdeAntes + 3, componentes.size());
 	}
 	
 	@Test
@@ -76,24 +75,48 @@ public class ConsultarComponenteTest {
 		cDAO.incluir(componente);
 		chavesDelete.add(componente);
 		
-		//Componente c = cDAO.pesquisarPorId(componente.getId());
+		Componente c = cDAO.pesquisarPorId(componente.getId());
 		
-		//assertTrue(componente.equals(c));
+		assertTrue(componente.equals(c));
 	}
 	
 	@Test
 	public void devePesquisarPorNome() throws Exception{
+		componente = new Componente();
+		componente.setNome("TestePesquisaNome1");
+		componente.setDescricao("Teste pesquisa por nome 1 ");
+		componente.setTipo(1);
+		componente.setInclusao(new Date());
+		cDAO.incluir(componente);
+		chavesDelete.add(componente);
 		
+		List<Componente> componentes =  cDAO.pesquisarPorNome(componente.getNome()); 
+		
+		assertTrue(componente.equals(componentes.get(0)));
 	}
 	
 	@Test
 	public void devePesquisarPorTipo() throws Exception{
+		long qtdeTipo = cDAO.countByTipo(1);
 		
+		List<Componente> componentes = cDAO.pesquisarPorTipo(1);
+		
+		assertEquals(qtdeTipo, componentes.size());
 	}
 	
 	@Test
 	public void devePesquisarPorNomeETipo() throws Exception{
+		componente = new Componente();
+		componente.setNome("TestePesquisaNomeETipo1");
+		componente.setDescricao("Teste pesquisa por nome e Tipo 1 ");
+		componente.setTipo(1);
+		componente.setInclusao(new Date());
+		cDAO.incluir(componente);
+		chavesDelete.add(componente);
 		
+		Componente c = cDAO.pesquisarPorNomeETipo(componente.getNome(), componente.getTipo());
+		
+		assertTrue(componente.equals(c));
 	}
 	
 	@After
