@@ -98,4 +98,17 @@ public class ComponenteDAO {
 		q.setParameter("tipo", tipo);
 		return (Componente)q.getSingleResult();
 	}
+
+	public void alterar(Componente componente) throws Exception{
+		conn.beginTransaction();
+		
+		try{
+			conn.getEntityManager().merge(componente);
+			conn.commit();
+		}catch(Exception e){
+			conn.rollback();
+			throw e;
+		}
+		
+	}
 }

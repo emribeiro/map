@@ -71,11 +71,11 @@ public class ComponenteModel {
 
 		retorno = cDAO.listar();
 		
-		if(retorno.size() == 0){
+		if(retorno.size() == 0 || retorno == null){
 			throw new Exception(Mensagem.NENHUM_REGISTRO_ENCONTRADO);
 		}
 		
-		return cDAO.listar();
+		return retorno;
 	}
 	
 	public Componente pesquisarPorId(long id) throws Exception{
@@ -136,5 +136,33 @@ public class ComponenteModel {
 		}
 		
 		return retorno;
+	}
+	
+	public void alterar(Componente componente) throws Exception{
+		
+		if(componente == null){
+			throw new Exception(Mensagem.COMPONENTE_NULO);
+		}
+		
+		if(componente.getNome() == null || componente.getNome().trim().length() == 0){
+			throw new Exception(Mensagem.COMPONENTE_SEM_NOME);
+		}
+		
+		if(componente.getTipo() == 0){
+			throw new Exception(Mensagem.COMPONENTE_SEM_TIPO);
+		}
+		
+		if(componente.getTipo() != 1 && componente.getTipo() != 2){
+			throw new Exception(Mensagem.COMPONENTE_TIPO_INEXISTENTE);
+		}
+		
+		try{
+			pesquisarPorId(componente.getId());
+		}catch(Exception e){
+			throw new Exception(Mensagem.COMPONENTE_INEXISTENTE);
+		}
+		
+		cDAO.alterar(componente);
+		
 	}
 }

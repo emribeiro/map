@@ -7,6 +7,7 @@ public class Mensagem {
 	public static final String COMPONENTE_TIPO_INEXISTENTE = "O Tipo de componente informado não existe";
 	public static final String COMPONENTE_EXISTENTE = "O componente já existe na base de dados";
 	public static final String COMPONENTE_NAO_ENCONTRADO = "Componente pesquisado não encontrado";
+	public static final String COMPONENTE_INEXISTENTE = "O componente indicado para alteração não existe.";
 	public static final String PESQUISA_COMPONENTE_TIPO_NAO_INFORMADO = "O tipo do componente não foi informado na pesquisa";
 	public static final String PESQUISA_COMPONENTE_TIPO_NAO_EXISTE = "O tipo informado na pesquisa não existe";
 	public static final String PESQUISA_COMPONENTE_NOME_NAO_INFORMADO = "Nome do componente não informado na pesquisa";
