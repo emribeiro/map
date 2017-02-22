@@ -7,13 +7,26 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="TB001_COMPONENTE")
-public class Componente {
+@NamedQueries({
+	@NamedQuery(name="componente.count", query="select count(c) from Componente c"),
+	@NamedQuery(name="componente.countByTipo", query="select count(c) from Componente c where c.tipo = :tipo"),
+	@NamedQuery(name="componente.listar", query="select c from Componente c"),
+	@NamedQuery(name="componente.pesquisarPorNome", query="select c from Componente c where c.nome like :nome"),
+	@NamedQuery(name="componente.pesquisarPorTipo", query="select c from Componente c where c.tipo = :tipo"),
+	@NamedQuery(name="componente.pesquisarPorNomeETipo", query="select c from Componente c where c.nome = :nome and c.tipo = :tipo")
+})
+public class Componente extends BaseEntity{
+
+	private static final long serialVersionUID = 5142478605260262836L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID_COMPONENTE")
