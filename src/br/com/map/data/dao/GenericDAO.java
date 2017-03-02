@@ -11,9 +11,11 @@ import br.com.map.data.entity.BaseEntity;
 public class GenericDAO<E extends BaseEntity> {
 	
 	private ConnUtil conn;
+	private Class<E> classePersistida;
 	
-	public GenericDAO(){
+	protected GenericDAO(Class<E> classePersistida){
 		conn = ConnUtil.getInstance();
+		this.classePersistida = classePersistida;
 	}
 	
 	public E save(E e) throws Exception{
@@ -55,14 +57,21 @@ public class GenericDAO<E extends BaseEntity> {
 		}
 	}
 	
+	public E find(long key) throws Exception{
+		conn.beginTransaction();
+		return conn.getEntityManager().find(classePersistida, key);
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<E> executeListQuery(String queryName, Map<String, Object> parameters) throws Exception{
 		List<E> data = null;
 		
 		Query query = conn.getEntityManager().createNamedQuery(queryName);
 		
-		for(Map.Entry<String, Object> param : parameters.entrySet()){
-			query.setParameter(param.getKey(), param.getValue());
+		if(parameters != null){
+			for(Map.Entry<String, Object> param : parameters.entrySet()){
+				query.setParameter(param.getKey(), param.getValue());
+			}
 		}
 		
 		data = query.getResultList();
@@ -76,13 +85,28 @@ public class GenericDAO<E extends BaseEntity> {
 		
 		Query query = conn.getEntityManager().createNamedQuery(queryName);
 		
-		for(Map.Entry<String, Object> param : parameters.entrySet()){
-			query.setParameter(param.getKey(), param.getValue());
+		if(parameters != null){
+			for(Map.Entry<String, Object> param : parameters.entrySet()){
+				query.setParameter(param.getKey(), param.getValue());
+			}
 		}
 		
 		data = (E) query.getSingleResult();
 		
 		
 		return data;
+	}
+	
+	public long executeScalarQuery(String queryName, Map<String, Object> parameters){
+		
+		Query query = conn.getEntityManager().createNamedQuery(queryName);
+		
+		if(parameters != null){
+			for(Map.Entry<String, Object> param : parameters.entrySet()){
+				query.setParameter(param.getKey(), param.getValue());
+			}
+		}
+		
+		return (Long)query.getSingleResult();
 	}
 }
