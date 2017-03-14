@@ -13,7 +13,7 @@ public class GenericDAO<E extends BaseEntity> {
 	private ConnUtil conn;
 	private Class<E> classePersistida;
 	
-	protected GenericDAO(Class<E> classePersistida){
+	public GenericDAO(Class<E> classePersistida){
 		conn = ConnUtil.getInstance();
 		this.classePersistida = classePersistida;
 	}

@@ -1,10 +1,11 @@
 
-package br.com.map.data.dao;
+package br.com.map.data.dao.impl;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import br.com.map.data.dao.GenericDAO;
 import br.com.map.data.entity.Componente;
 
 public class ComponenteDAO {

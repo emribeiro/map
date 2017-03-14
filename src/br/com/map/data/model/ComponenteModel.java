@@ -2,55 +2,25 @@ package br.com.map.data.model;
 
 import java.util.List;
 
-import javax.persistence.Query;
-
-import br.com.map.data.dao.ComponenteDAO;
-import br.com.map.data.dao.util.ConnUtil;
+import br.com.map.data.dao.impl.ComponenteDAO;
 import br.com.map.data.entity.Componente;
 import br.com.map.data.model.mensagem.Mensagem;
+import br.com.map.data.validade.ComponenteValidator;
 
 public class ComponenteModel {
 
 	private ComponenteDAO cDAO;
+	private ComponenteValidator cValidator;
 	
 	public ComponenteModel(){
 		cDAO = new ComponenteDAO();
+		cValidator = new ComponenteValidator();
 	}
 	
 	public long incluir(Componente componente) throws Exception{
 		
-		if(componente == null){
-			throw new Exception(Mensagem.COMPONENTE_NULO);
-		}
-		
-		if(componente.getNome() == null || componente.getNome().trim().length() == 0){
-			throw new Exception(Mensagem.COMPONENTE_SEM_NOME);
-		}
-		
-		if(componente.getTipo() == 0){
-			throw new Exception(Mensagem.COMPONENTE_SEM_TIPO);
-		}
-		
-		if(componente.getTipo() != 1 && componente.getTipo() != 2){
-			throw new Exception(Mensagem.COMPONENTE_TIPO_INEXISTENTE);
-		}
-		
-		
-		ConnUtil.getInstance().beginTransaction();
-		Query q = ConnUtil.getInstance().getEntityManager().createQuery("select c from Componente c where c.nome = :nome and c.tipo = :tipo", Componente.class);
-		q.setParameter("nome", componente.getNome());
-		q.setParameter("tipo", componente.getTipo());
-		Componente retorno;
-		try{
-			retorno = (Componente)q.getSingleResult();
-		}catch(Exception e){
-			retorno = null;
-		}
-		
-		if(retorno != null){
-			throw new Exception(Mensagem.COMPONENTE_EXISTENTE);
-		}
-		
+		cValidator.validate(componente);
+		cValidator.validarDuplicidade(componente);
 		return cDAO.incluir(componente);
 	}
 	
@@ -139,30 +109,8 @@ public class ComponenteModel {
 	}
 	
 	public void alterar(Componente componente) throws Exception{
-		
-		if(componente == null){
-			throw new Exception(Mensagem.COMPONENTE_NULO);
-		}
-		
-		if(componente.getNome() == null || componente.getNome().trim().length() == 0){
-			throw new Exception(Mensagem.COMPONENTE_SEM_NOME);
-		}
-		
-		if(componente.getTipo() == 0){
-			throw new Exception(Mensagem.COMPONENTE_SEM_TIPO);
-		}
-		
-		if(componente.getTipo() != 1 && componente.getTipo() != 2){
-			throw new Exception(Mensagem.COMPONENTE_TIPO_INEXISTENTE);
-		}
-		
-		try{
-			pesquisarPorId(componente.getId());
-		}catch(Exception e){
-			throw new Exception(Mensagem.COMPONENTE_INEXISTENTE);
-		}
-		
+		cValidator.validate(componente);
+		cValidator.validarExistencia(componente);
 		cDAO.alterar(componente);
-		
 	}
 }

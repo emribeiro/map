@@ -10,7 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.com.map.data.dao.ComponenteDAO;
+import br.com.map.data.dao.impl.ComponenteDAO;
 import br.com.map.data.entity.Componente;
 
 public class IncluirComponenteTest {
