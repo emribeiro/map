@@ -62,6 +62,11 @@ public class GenericDAO<E extends BaseEntity> {
 		return conn.getEntityManager().find(classePersistida, key);
 	}
 	
+	public E find(int key) throws Exception{
+		conn.beginTransaction();
+		return conn.getEntityManager().find(classePersistida, key);
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<E> executeListQuery(String queryName, Map<String, Object> parameters) throws Exception{
 		List<E> data = null;

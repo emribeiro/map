@@ -6,6 +6,7 @@
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		
 		<class>br.com.map.data.entity.Componente</class>
+		<class>br.com.map.data.entity.dominio.TipoComponente</class>
 		
 		<properties>
 			  <!-- dados da conexao -->
